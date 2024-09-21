@@ -6,7 +6,7 @@
 			"value": "ds598-now"
 		},
 		"AirPollution_properties_typeProperties_url": {
-			"value": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+			"value": "https://api.openweathermap.org\n"
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"value": "https://ds598.blob.core.windows.net/"

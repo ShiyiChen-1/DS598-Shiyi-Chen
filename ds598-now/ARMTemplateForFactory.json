@@ -9,7 +9,7 @@
 		},
 		"AirPollution_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+			"defaultValue": "https://api.openweathermap.org\n"
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"type": "string",
@@ -213,7 +213,7 @@
 						"typeProperties": {
 							"method": "GET",
 							"headers": {},
-							"url": "https://shiyichen-1/secrets/OpenWeatherAPIKey?api-version=7.0",
+							"url": "https://shiyichen-1.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://vault.azure.net"
@@ -277,10 +277,22 @@
 											"referenceName": "AirPollution",
 											"type": "DatasetReference",
 											"parameters": {
-												"start": "@{div(sub(ticks(addDays(addYears(utcNow(), -1), mul(7, item()))), ticks('1970-01-01')), 10000000)}",
-												"end": "@{div(sub(ticks(addDays(addYears(utcNow(), -1), mul(7, add(item(), 1)))), ticks('1970-01-01')), 10000000)}",
-												"lat": "@{string(42.3601)}",
-												"lon": "@{string(-71.0589)} ",
+												"start": {
+													"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(item(), 52)))), ticks('1970-01-01')), 10000000)}",
+													"type": "Expression"
+												},
+												"end": {
+													"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(add(item(), 1), 52)))), ticks('1970-01-01')), 10000000)}",
+													"type": "Expression"
+												},
+												"lat": {
+													"value": "@pipeline().parameters.lat",
+													"type": "Expression"
+												},
+												"lon": {
+													"value": "@pipeline().parameters.lon",
+													"type": "Expression"
+												},
 												"appid": {
 													"value": "@{activity('pollution data').output.value}",
 													"type": "Expression"
@@ -302,6 +314,16 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"lat": {
+						"type": "string",
+						"defaultValue": "42.3601"
+					},
+					"lon": {
+						"type": "string",
+						"defaultValue": "-71.0589"
+					}
 				},
 				"annotations": []
 			},
@@ -338,7 +360,9 @@
 				},
 				"annotations": [],
 				"type": "RestResource",
-				"typeProperties": {},
+				"typeProperties": {
+					"relativeUrl": "https://api.openweathermap.org/data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+				},
 				"schema": []
 			},
 			"dependsOn": [
@@ -439,7 +463,10 @@
 				"annotations": [],
 				"type": "RestResource",
 				"typeProperties": {
-					"relativeUrl": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+					"relativeUrl": {
+						"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
+						"type": "Expression"
+					}
 				},
 				"schema": []
 			},
