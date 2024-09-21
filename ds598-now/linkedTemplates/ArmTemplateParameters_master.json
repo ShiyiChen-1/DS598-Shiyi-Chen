@@ -5,8 +5,14 @@
 		"factoryName": {
 			"value": "ds598-now"
 		},
+		"AirPollution_properties_typeProperties_url": {
+			"value": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"value": "https://ds598.blob.core.windows.net/"
+		},
+		"Historical Weather Data_properties_typeProperties_url": {
+			"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{data set().lon}&type=@{dataset().dataType}&start=@{dataset HW2: Historical Data Ingestion 11 ().start}&end=@{dataset().end}&appid=@{dataset().appi d}"
 		},
 		"LS_ADLS_properties_typeProperties_url": {
 			"value": "https://ds598.dfs.core.windows.net/"
