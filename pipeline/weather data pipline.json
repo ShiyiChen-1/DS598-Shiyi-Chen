@@ -143,11 +143,6 @@
 				"defaultValue": "hour"
 			}
 		},
-		"variables": {
-			"APIKey": {
-				"type": "String"
-			}
-		},
 		"annotations": []
 	}
 }
