@@ -1,0 +1,12 @@
+{
+	"name": "historicalweather",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Historical Weather Data",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
