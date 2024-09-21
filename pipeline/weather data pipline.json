@@ -91,7 +91,8 @@
 											"value": "@{activity('weather data').output.value}",
 											"type": "Expression"
 										},
-										"dt": "@string(sub(div(ticks(utcNow()), 10000000), mul(86400, item())))"
+										"dt": "@string(sub(div(ticks(utcNow()), 10000000), mul(86400, item())))",
+										"dataType": "@pipeline().parameters.dataType"
 									}
 								}
 							],
@@ -160,6 +161,10 @@
 			"lon": {
 				"type": "string",
 				"defaultValue": "-71.0589"
+			},
+			"dataType": {
+				"type": "string",
+				"defaultValue": "hour"
 			}
 		},
 		"variables": {
