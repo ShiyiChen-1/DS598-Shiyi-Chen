@@ -5,6 +5,20 @@
 			"referenceName": "Historical Weather Data",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"start": {
+				"type": "string"
+			},
+			"lat": {
+				"type": "string"
+			},
+			"end": {
+				"type": "string"
+			},
+			"appid": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
