@@ -37,7 +37,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@range(0, div(sub(ticks(utcNow()), ticks('2023-01-01')), 864000000000))\n\n\n\n",
+						"value": "@range(1, 52) \n\n\n\n",
 						"type": "Expression"
 					},
 					"isSequential": true,
