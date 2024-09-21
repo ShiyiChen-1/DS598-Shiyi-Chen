@@ -1,0 +1,9 @@
+{
+	"name": "ds598-now",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9a12b140-58a1-407c-93ae-f9856fb286d5",
+		"tenantId": "d57d32cc-c121-488f-b07b-dfe705680c71"
+	}
+}
