@@ -1,0 +1,12 @@
+{
+	"name": "Historical Weather Data",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{data set().lon}&type=@{dataset().dataType}&start=@{dataset HW2: Historical Data Ingestion 11 ().start}&end=@{dataset().end}&appid=@{dataset().appi d}",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
