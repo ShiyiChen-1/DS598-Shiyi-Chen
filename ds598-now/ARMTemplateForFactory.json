@@ -17,7 +17,7 @@
 		},
 		"Historical Weather Data_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://history.openweathermap.org"
+			"defaultValue": "http://history.openweathermap.org"
 		},
 		"LS_ADLS_properties_typeProperties_url": {
 			"type": "string",
@@ -136,7 +136,8 @@
 													"value": "@{activity('weather data').output.value}",
 													"type": "Expression"
 												},
-												"dt": "@string(sub(div(ticks(utcNow()), 10000000), mul(86400, item())))"
+												"dt": "@string(sub(div(ticks(utcNow()), 10000000), mul(86400, item())))",
+												"dataType": "@pipeline().parameters.dataType"
 											}
 										}
 									],
@@ -208,6 +209,10 @@
 					"lon": {
 						"type": "string",
 						"defaultValue": "-71.0589"
+					},
+					"dataType": {
+						"type": "string",
+						"defaultValue": "hour"
 					}
 				},
 				"variables": {
@@ -494,13 +499,16 @@
 					},
 					"dt": {
 						"type": "string"
+					},
+					"dataType": {
+						"type": "string"
 					}
 				},
 				"annotations": [],
 				"type": "RestResource",
 				"typeProperties": {
 					"relativeUrl": {
-						"value": "/data/3.0/onecall/timemachine?lat=@{dataset().lat}&lon=@{dataset().lon}&dt=@{dataset().dt}&appid=@{dataset().appid}",
+						"value": "/data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset().dataType}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
 						"type": "Expression"
 					}
 				},

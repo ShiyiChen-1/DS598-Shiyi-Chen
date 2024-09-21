@@ -17,7 +17,7 @@
 		},
 		"Historical Weather Data_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://history.openweathermap.org"
+			"defaultValue": "http://history.openweathermap.org"
 		},
 		"LS_ADLS_properties_typeProperties_url": {
 			"type": "string",

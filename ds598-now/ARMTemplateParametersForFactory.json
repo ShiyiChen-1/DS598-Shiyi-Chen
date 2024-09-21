@@ -12,7 +12,7 @@
 			"value": "https://ds598.blob.core.windows.net/"
 		},
 		"Historical Weather Data_properties_typeProperties_url": {
-			"value": "https://history.openweathermap.org"
+			"value": "http://history.openweathermap.org"
 		},
 		"LS_ADLS_properties_typeProperties_url": {
 			"value": "https://ds598.dfs.core.windows.net/"
