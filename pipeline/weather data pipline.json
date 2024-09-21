@@ -90,6 +90,14 @@
 											"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(item(), 52)))), ticks('1970-01-01')), 10000000)}",
 											"type": "Expression"
 										},
+										"lat": {
+											"value": "@pipeline().parameters.lat",
+											"type": "Expression"
+										},
+										"lon": {
+											"value": "@pipeline().parameters.lon",
+											"type": "Expression"
+										},
 										"end": {
 											"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(add(item(), 1), 52)))), ticks('1970-01-01')), 10000000)}",
 											"type": "Expression"
