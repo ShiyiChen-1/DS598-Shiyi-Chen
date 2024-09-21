@@ -6,13 +6,13 @@
 			"value": "ds598-now"
 		},
 		"AirPollution_properties_typeProperties_url": {
-			"value": "https://api.openweathermap.org\n"
+			"value": "http://api.openweathermap.org/"
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"value": "https://ds598.blob.core.windows.net/"
 		},
 		"Historical Weather Data_properties_typeProperties_url": {
-			"value": "https://history.openweathermap.org/\n"
+			"value": "https://history.openweathermap.org/data/2.5/history/city"
 		},
 		"LS_ADLS_properties_typeProperties_url": {
 			"value": "https://ds598.dfs.core.windows.net/"
@@ -21,7 +21,7 @@
 			"value": "https://shiyichen-1.vault.azure.net/"
 		},
 		"LS_OpenWeather_AirPollution_properties_typeProperties_url": {
-			"value": " http://api.openweathermap.org/"
+			"value": "http://api.openweathermap.org/"
 		},
 		"LS_OpenWeather_Historical_properties_typeProperties_url": {
 			"value": "https://history.openweathermap.org/"

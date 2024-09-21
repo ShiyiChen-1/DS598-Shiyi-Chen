@@ -9,7 +9,7 @@
 		},
 		"AirPollution_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://api.openweathermap.org\n"
+			"defaultValue": "http://api.openweathermap.org/"
 		},
 		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 			"type": "string",
@@ -17,7 +17,7 @@
 		},
 		"Historical Weather Data_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://history.openweathermap.org/\n"
+			"defaultValue": "https://history.openweathermap.org/data/2.5/history/city"
 		},
 		"LS_ADLS_properties_typeProperties_url": {
 			"type": "string",
@@ -29,7 +29,7 @@
 		},
 		"LS_OpenWeather_AirPollution_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": " http://api.openweathermap.org/"
+			"defaultValue": "http://api.openweathermap.org/"
 		},
 		"LS_OpenWeather_Historical_properties_typeProperties_url": {
 			"type": "string",
@@ -169,7 +169,10 @@
 				"annotations": [],
 				"type": "RestResource",
 				"typeProperties": {
-					"relativeUrl": "https://api.openweathermap.org/data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+					"relativeUrl": {
+						"value": "https://api.openweathermap.org/data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
+						"type": "Expression"
+					}
 				},
 				"schema": []
 			},
