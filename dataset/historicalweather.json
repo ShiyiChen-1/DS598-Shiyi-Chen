@@ -12,6 +12,9 @@
 			"lat": {
 				"type": "string"
 			},
+			"lon": {
+				"type": "string"
+			},
 			"end": {
 				"type": "string"
 			},

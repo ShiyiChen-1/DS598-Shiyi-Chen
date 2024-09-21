@@ -78,7 +78,20 @@
 							"inputs": [
 								{
 									"referenceName": "historicalweather",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"start": {
+											"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(item(), 52)))), ticks('1970-01-01')), 10000000)}",
+											"type": "Expression"
+										},
+										"lat": "@pipeline().parameters.lat",
+										"lon": "@pipeline().parameters.lon",
+										"end": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(add(item(), 1), 52)))), ticks('1970-01-01')), 10000000)}",
+										"appid": {
+											"value": "@{activity('weather data').output.value}",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
@@ -98,7 +111,10 @@
 											"value": "@pipeline().parameters.lon",
 											"type": "Expression"
 										},
-										"end": "@{div(sub(ticks(addDays(addYears(utcNow(), -1), mul(7, add(item(), 1)))), ticks('1970-01-01')), 10000000)}",
+										"end": {
+											"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(add(item(), 1), 52)))), ticks('1970-01-01')), 10000000)}",
+											"type": "Expression"
+										},
 										"appid": {
 											"value": "appid: @{activity('weather data').output.value}",
 											"type": "Expression"
