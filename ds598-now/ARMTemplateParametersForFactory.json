@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "ds598-now"
 		},
+		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
+			"value": "https://ds598.blob.core.windows.net/"
+		},
 		"LS_ADLS_properties_typeProperties_url": {
 			"value": "https://ds598.dfs.core.windows.net/"
 		},
