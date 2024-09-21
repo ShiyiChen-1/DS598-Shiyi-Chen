@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ds598-now"
+		},
+		"LS_ADLS_properties_typeProperties_url": {
+			"value": "https://ds598.dfs.core.windows.net/"
+		},
+		"LS_KeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://shiyichen-1.vault.azure.net/"
+		},
+		"LS_OpenWeather_AirPollution_properties_typeProperties_url": {
+			"value": " http://api.openweathermap.org/"
+		},
+		"LS_OpenWeather_Historical_properties_typeProperties_url": {
+			"value": "https://history.openweathermap.org/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
