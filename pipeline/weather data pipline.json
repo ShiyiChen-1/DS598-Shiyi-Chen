@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Web1",
+				"name": "weather data",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
@@ -19,7 +19,10 @@
 					"url": "https://shiyichen-1.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
 					"authentication": {
 						"type": "MSI",
-						"resource": "@activity('name of the web activity').output.value"
+						"resource": {
+							"value": "@activity('weather data').output.value",
+							"type": "Expression"
+						}
 					}
 				}
 			},
