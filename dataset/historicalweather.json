@@ -20,12 +20,18 @@
 			},
 			"appid": {
 				"type": "string"
+			},
+			"dt": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
-			"relativeUrl": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+			"relativeUrl": {
+				"value": "/data/3.0/onecall/timemachine?lat=@{dataset().lat}&lon=@{dataset().lon}&dt=@{dataset().dt}&appid=@{dataset().appid}",
+				"type": "Expression"
+			}
 		},
 		"schema": []
 	}

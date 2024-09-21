@@ -90,7 +90,8 @@
 										"appid": {
 											"value": "@{activity('weather data').output.value}",
 											"type": "Expression"
-										}
+										},
+										"dt": "@string(sub(div(ticks(utcNow()), 10000000), mul(86400, item())))"
 									}
 								}
 							],
