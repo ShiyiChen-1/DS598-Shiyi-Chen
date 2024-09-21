@@ -61,7 +61,7 @@
 						"typeProperties": {
 							"method": "GET",
 							"headers": {},
-							"url": "https://shiyichen-1/secrets/OpenWeatherAPIKey?api-version=7.0",
+							"url": "https://shiyichen-1.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://vault.azure.net"
