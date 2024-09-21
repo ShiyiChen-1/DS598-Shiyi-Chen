@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://api.openweathermap.org/data/2.5/air_pollution/history?lat={latitude}&lon={longitude}&start={start}&end={end}&appid={your_api_key}",
+			"url": "https://history.openweathermap.org/data/2.5/history/city",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
