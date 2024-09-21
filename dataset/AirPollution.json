@@ -1,0 +1,29 @@
+{
+	"name": "AirPollution",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AirPollution",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"start": {
+				"type": "string"
+			},
+			"end": {
+				"type": "string"
+			},
+			"lat": {
+				"type": "string"
+			},
+			"lon": {
+				"type": "string"
+			},
+			"appid": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

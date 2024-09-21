@@ -15,7 +15,79 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://shiyichen-1/secrets/OpenWeatherAPIKey?api-version=7.0"
+					"method": "GET",
+					"url": "https://shiyichen-1/secrets/OpenWeatherAPIKey?api-version=7.0",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@range(1, 52) ",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "AirPollution",
+									"type": "DatasetReference",
+									"parameters": {
+										"start": "@{div(sub(ticks(addDays(addYears(utcNow(), -1), mul(7, item()))), ticks('1970-01-01')), 10000000)}",
+										"end": "@{div(sub(ticks(addDays(addYears(utcNow(), -1), mul(7, add(item(), 1)))), ticks('1970-01-01')), 10000000)}",
+										"lat": "@{string(42.3601)}",
+										"lon": "@{string(-71.0589)} "
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Json4",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
 				}
 			}
 		],
