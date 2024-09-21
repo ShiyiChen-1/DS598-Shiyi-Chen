@@ -423,30 +423,6 @@
 								}
 							]
 						}
-					},
-					{
-						"name": "Set_API_Key",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "weather data",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "APIKey",
-							"value": {
-								"value": "@activity('weather data').output.value",
-								"type": "Expression"
-							}
-						}
 					}
 				],
 				"policy": {
