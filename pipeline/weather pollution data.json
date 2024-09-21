@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "pollution",
+				"name": "pollution data",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
@@ -26,7 +26,14 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "pollution data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
@@ -76,7 +83,11 @@
 										"start": "@{div(sub(ticks(addDays(addYears(utcNow(), -1), mul(7, item()))), ticks('1970-01-01')), 10000000)}",
 										"end": "@{div(sub(ticks(addDays(addYears(utcNow(), -1), mul(7, add(item(), 1)))), ticks('1970-01-01')), 10000000)}",
 										"lat": "@{string(42.3601)}",
-										"lon": "@{string(-71.0589)} "
+										"lon": "@{string(-71.0589)} ",
+										"appid": {
+											"value": "@{activity('pollution data').output.value}",
+											"type": "Expression"
+										}
 									}
 								}
 							],
