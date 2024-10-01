@@ -211,7 +211,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "bronze",
+						"folderPath": "weather",
 						"fileSystem": "shiyichen-ds598"
 					}
 				},
@@ -235,7 +235,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "bronze",
+						"folderPath": "pollution",
 						"fileSystem": "shiyichen-ds598"
 					}
 				},
@@ -289,6 +289,146 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Historical Weather Data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/air pollution data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "pollution data",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "GET",
+							"headers": {},
+							"url": "https://shiyichen-1.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "pollution data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@range(1, 52) ",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET",
+											"paginationRules": {
+												"supportRFC5988": "true"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "AirPollution",
+											"type": "DatasetReference",
+											"parameters": {
+												"start": {
+													"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(item(), 52)))), ticks('1970-01-01')), 10000000)}",
+													"type": "Expression"
+												},
+												"end": {
+													"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(add(item(), 1), 52)))), ticks('1970-01-01')), 10000000)}",
+													"type": "Expression"
+												},
+												"lat": {
+													"value": "@pipeline().parameters.lat",
+													"type": "Expression"
+												},
+												"lon": {
+													"value": "@pipeline().parameters.lon",
+													"type": "Expression"
+												},
+												"appid": {
+													"value": "@{activity('pollution data').output.value}",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json4",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"lat": {
+						"type": "string",
+						"defaultValue": "42.3601"
+					},
+					"lon": {
+						"type": "string",
+						"defaultValue": "-71.0589"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AirPollution')]",
+				"[concat(variables('factoryId'), '/datasets/Json4')]"
 			]
 		},
 		{
@@ -447,146 +587,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/historicalweather')]",
 				"[concat(variables('factoryId'), '/datasets/Json3')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/air pollution data')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "pollution data",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"method": "GET",
-							"headers": {},
-							"url": "https://shiyichen-1.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://vault.azure.net"
-							}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "pollution data",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@range(1, 52) ",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "RestSource",
-											"httpRequestTimeout": "00:01:40",
-											"requestInterval": "00.00:00:00.010",
-											"requestMethod": "GET",
-											"paginationRules": {
-												"supportRFC5988": "true"
-											}
-										},
-										"sink": {
-											"type": "JsonSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "JsonWriteSettings"
-											}
-										},
-										"enableStaging": false
-									},
-									"inputs": [
-										{
-											"referenceName": "AirPollution",
-											"type": "DatasetReference",
-											"parameters": {
-												"start": {
-													"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(item(), 52)))), ticks('1970-01-01')), 10000000)}",
-													"type": "Expression"
-												},
-												"end": {
-													"value": "@{div(sub(ticks(addDays(utcNow(), mul(7, sub(add(item(), 1), 52)))), ticks('1970-01-01')), 10000000)}",
-													"type": "Expression"
-												},
-												"lat": {
-													"value": "@pipeline().parameters.lat",
-													"type": "Expression"
-												},
-												"lon": {
-													"value": "@pipeline().parameters.lon",
-													"type": "Expression"
-												},
-												"appid": {
-													"value": "@{activity('pollution data').output.value}",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "Json4",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"lat": {
-						"type": "string",
-						"defaultValue": "42.3601"
-					},
-					"lon": {
-						"type": "string",
-						"defaultValue": "-71.0589"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AirPollution')]",
-				"[concat(variables('factoryId'), '/datasets/Json4')]"
 			]
 		}
 	]
