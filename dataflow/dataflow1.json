@@ -58,13 +58,13 @@
 				"          weather_main = {list.weather.main},",
 				"          wind_gust = {list.wind.gust},",
 				"          wind_speed = {list.wind.speed},",
-				"          rain_1h = {list.rain.{1h}},",
+				"          rain_1h = {list.rain.{1h},",
 				"          list",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> FlattenAndMapNestedFields",
-				"FlattenAndMapNestedFields derive(corrected_timestamp = ERROR_FUNCTION(''),",
-				"          column2 = ERROR_FUNCTION('')) ~> TimestampAndLocation"
+				"FlattenAndMapNestedFields derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toLong(timestamp), toLong(null())),",
+				"          {} = ERROR_FUNCTION('')) ~> TimestampAndLocation"
 			]
 		}
 	}
