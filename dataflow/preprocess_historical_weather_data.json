@@ -72,7 +72,6 @@
 				"          weather_main = {list.weather.main},",
 				"          wind_gust = {list.wind.gust},",
 				"          wind_speed = {list.wind.speed},",
-				"          rain_1h = {list.rain.{1h}},",
 				"          timestamp = {list.dt},",
 				"          feels_like = {list.main.feels_like},",
 				"          temp = list.main.temp,",
