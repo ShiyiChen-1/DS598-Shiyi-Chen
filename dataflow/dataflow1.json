@@ -13,7 +13,14 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "FlattenAndMapNestedFields"
+				},
+				{
+					"name": "TimestampAndLocation"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          message as string,",
@@ -27,7 +34,37 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> preprocesshistoricalweather"
+				"     documentForm: 'documentPerLine') ~> preprocesshistoricalweather",
+				"preprocesshistoricalweather foldDown(unroll(list),",
+				"     mapColumn(",
+				"          message,",
+				"          cod,",
+				"          city_id,",
+				"          calctime,",
+				"          cnt,",
+				"          coord,",
+				"          clouds_all = {list.clouds.all},",
+				"          timestamp = {list.dt},",
+				"          feels_like = {list.main.feels_like},",
+				"          weather_description = {list.weather.description},",
+				"          wind_deg = {list.wind.deg},",
+				"          humidity = {list.main.humidity},",
+				"          pressure = {list.main.pressure},",
+				"          temp = {list.main.temp},",
+				"          temp_max = {list.main.temp_max},",
+				"          temp_min = {list.main.temp_min},",
+				"          weather_icon = {list.weather.icon},",
+				"          weather_id = {list.weather.id},",
+				"          weather_main = {list.weather.main},",
+				"          wind_gust = {list.wind.gust},",
+				"          wind_speed = {list.wind.speed},",
+				"          rain_1h = {list.rain.{1h}},",
+				"          list",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> FlattenAndMapNestedFields",
+				"FlattenAndMapNestedFields derive(corrected_timestamp = ERROR_FUNCTION(''),",
+				"          column2 = ERROR_FUNCTION('')) ~> TimestampAndLocation"
 			]
 		}
 	}
