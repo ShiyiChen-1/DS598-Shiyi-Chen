@@ -19,6 +19,9 @@
 				},
 				{
 					"name": "TimestampAndLocation"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -42,12 +45,9 @@
 				"          city_id,",
 				"          calctime,",
 				"          cnt,",
-				"          coord,",
 				"          clouds_all = {list.clouds.all},",
-				"          timestamp = {list.dt},",
-				"          feels_like = {list.main.feels_like},",
-				"          weather_description = {list.weather.description},",
 				"          wind_deg = {list.wind.deg},",
+				"          weather_description = {list.weather.description},",
 				"          humidity = {list.main.humidity},",
 				"          pressure = {list.main.pressure},",
 				"          temp = {list.main.temp},",
@@ -58,13 +58,26 @@
 				"          weather_main = {list.weather.main},",
 				"          wind_gust = {list.wind.gust},",
 				"          wind_speed = {list.wind.speed},",
-				"          rain_1h = {list.rain.{1h},",
-				"          list",
+				"          rain_1h = {list.rain.{1h}},",
+				"          timestamp = {list.dt},",
+				"          feels_like = {list.main.feels_like},",
+				"          temp = list.main.temp,",
+				"          humidity = list.main.humidity,",
+				"          temp_min = list.main.temp_min,",
+				"          temp_max = list.main.temp_max,",
+				"          timestamp = list.dt,",
+				"          feels_like = list.main.feels_like,",
+				"          pressure = list.main.pressure,",
+				"          speed = list.wind.speed,",
+				"          deg = list.wind.deg,",
+				"          gust = list.wind.gust,",
+				"          clouds_all = list.clouds.all",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> FlattenAndMapNestedFields",
-				"FlattenAndMapNestedFields derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toLong(timestamp), toLong(null())),",
-				"          {} = ERROR_FUNCTION('')) ~> TimestampAndLocation"
+				"FlattenAndMapNestedFields derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
+				"          location = 'Boston') ~> TimestampAndLocation",
+				"TimestampAndLocation filter(!isNull(temp) && !isNull(humidity)) ~> filter1"
 			]
 		}
 	}
