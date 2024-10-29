@@ -1,0 +1,20 @@
+{
+	"name": "SilverHistoricalWeatherData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "sliver/weather",
+				"fileSystem": "shiyichen-ds598"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

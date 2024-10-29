@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "preprocess_historical_weather_data",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -14,15 +14,19 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "SilverHistoricalWeatherData",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
 			"transformations": [
 				{
-					"name": "FlattenAndMapNestedFields"
+					"name": "Flatten1"
 				},
 				{
-					"name": "TimestampAndLocation"
+					"name": "derivedColumn1"
 				},
 				{
 					"name": "filter1"
@@ -88,10 +92,10 @@
 				"          weather_icon = list.weather.icon",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> FlattenAndMapNestedFields",
-				"FlattenAndMapNestedFields derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
-				"          location = 'Boston') ~> TimestampAndLocation",
-				"TimestampAndLocation filter(!isNull(temp) && !isNull(humidity) && !isNull(corrected_timestamp)) ~> filter1",
+				"     skipDuplicateMapOutputs: false) ~> Flatten1",
+				"Flatten1 derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
+				"          location = 'Boston') ~> derivedColumn1",
+				"derivedColumn1 filter(!isNull(temp) && !isNull(humidity) && !isNull(corrected_timestamp)) ~> filter1",
 				"filter1 derive(data_time = toTimestamp(toLong(corrected_timestamp) * 1000L),",
 				"          id = concat(location, '_', toString(corrected_timestamp)),",
 				"          temp_C = round(temp - 273.15, 2),",
@@ -140,8 +144,13 @@
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
